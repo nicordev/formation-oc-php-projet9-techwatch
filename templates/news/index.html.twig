@@ -8,9 +8,16 @@
 
 {% block content %}
     <div class="row">
-        <div class="col-12 col-md-6 col-lg-4">
-            <h2>Symfony 4.4 LTS is live!</h2>
+        {% for rssFeed in rssFeeds %}
+            <div class="col-12 col-md-6 col-lg-4">
+                <h2>{{ rssFeed.title }}</h2>
 
-        </div>
+                <ul>
+                {% for article in rssFeed.items %}
+                    <li>{{ article.title }}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        {% endfor %}
     </div>
 {% endblock %}
