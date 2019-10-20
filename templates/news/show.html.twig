@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ rssFeed.title }}{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset("css/rss_feed.css") }}">
+{% endblock %}
+
+{% block header %}
+    <h1>{{ rssFeed.title }}</h1>
+{% endblock %}
+
+{% block content %}
+    <div id="feed-list" class="row">
+        {% for article in rssFeed.items %}
+            <div class="col-12 col-md-6 col-lg-4">
+                <h2>{{ article.title }}<span class="btn btn-secondary show-article-btn">+</span></h2>
+
+                <div class="feed-content hidden">
+                    {{ article.description|raw }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset("js/ElementDisplayHandler.js") }}"></script>
+    <script src="{{ asset("js/news_show.js") }}"></script>
+{% endblock %}
