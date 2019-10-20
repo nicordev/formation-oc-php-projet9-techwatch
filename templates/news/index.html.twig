@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TechWatch - News{% endblock %}
+
+{% block header %}
+    <h1>TechWatch</h1>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        {% for rssFeed in rssFeeds %}
+            <div class="col-12 col-md-6 col-lg-4">
+                <h2>{{ rssFeed.title }}</h2>
+
+                <ul>
+                {% for article in rssFeed.items %}
+                    <li>{{ article.title }}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
