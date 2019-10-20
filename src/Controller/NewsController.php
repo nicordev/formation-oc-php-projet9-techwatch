@@ -65,4 +65,20 @@ class NewsController extends AbstractController
 
         return $this->render('news/create.html.twig', ["rssFeedForm" => $form->createView()]);
     }
+
+    /**
+     * @Route(
+     *     "/news/delete/{id}",
+     *     name="news_delete",
+     *     requirements={"id": "\d+"}
+     * )
+     */
+    public function deleteRssFeed(Source $rssFeed, EntityManagerInterface $manager)
+    {
+        $manager->remove($rssFeed);
+        $manager->flush();
+        $this->addFlash("notice", "The RSS feed has been deleted.");
+
+        return $this->redirectToRoute("news_list");
+    }
 }
