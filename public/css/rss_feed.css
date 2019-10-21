@@ -1,0 +1,7 @@
+#feed-list img, #feed-list iframe {
+    max-width: 100%;
+}
+
+.hidden {
+    display: none;
+}
