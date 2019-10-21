@@ -29,7 +29,10 @@ class NewsController extends AbstractController
             $rssFeeds[] = $feed;
         }
 
-        return $this->render('news/list.html.twig', ["rssFeeds" => $rssFeeds]);
+        return $this->render('news/list.html.twig', [
+            "rssFeeds" => $rssFeeds,
+            "twitLists" => ["afup", "TwitterDev"]
+        ]);
     }
 
     /**

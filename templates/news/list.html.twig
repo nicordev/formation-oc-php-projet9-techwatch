@@ -7,6 +7,8 @@
 {% endblock %}
 
 {% block content %}
+    <h2>RSS</h2>
+
     <div class="row">
         {% for rssFeed in rssFeeds %}
             <div class="col-12 col-md-6 col-lg-4">
@@ -24,4 +26,18 @@
             </div>
         {% endfor %}
     </div>
+
+    <h2>Twitter</h2>
+
+    <div class="row">
+        {% for twitList in twitLists %}
+            <div class="col-12 col-md-4">
+                {{ show_twit_list(twitList, null, 500, true, false)|raw }}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ get_twitter_script()|raw }}
 {% endblock %}
