@@ -1,0 +1,32 @@
+#feed-list img, #feed-list iframe {
+    max-width: 100%;
+}
+
+.feed-item {
+    margin: 10px;
+    padding: 10px;
+    border: #20262e solid 1px;
+    border-radius: 3px;
+}
+
+.feed-content {
+    font-size: 1rem !important;
+}
+
+.show-article-btn {
+    margin: 5px;
+    border-radius: 50%;
+    width: 37px;
+}
+
+.show-article-btn:hover {
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+}
+
+h2 {
+    font-size: 1.25rem;
+}

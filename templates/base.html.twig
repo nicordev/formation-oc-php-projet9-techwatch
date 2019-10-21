@@ -5,14 +5,23 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         {# Bootstrap #}
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
         {% block body %}
-            <nav>
-                <ul>
-                    <li><a class="btn btn-secondary" href="{{ path("news_create") }}">Add RSS feed</a></li>
-                </ul>
+            <nav class="navbar">
+                <div>
+                    <a href="{{ path('news_list') }}">TechWatch</a>
+                </div>
+                <div class="navbar-links">
+                {% if app.user %}
+                    <a class="btn btn-secondary" href="{{ path('news_create') }}">Add RSS feed</a>
+                    <a class="btn btn-warning" href="{{ path('app_logout') }}">Logout</a>
+                {% else %}
+                    <a class="btn btn-secondary" href="{{ path('app_login') }}">Login</a>
+                {% endif %}
+                </div>
             </nav>
             <header class="container-fluid">
                 {% block header %}{% endblock %}
