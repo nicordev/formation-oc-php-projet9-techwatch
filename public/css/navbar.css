@@ -1,4 +1,12 @@
 .navbar {
+    background-color: #20262e;
+    color: whitesmoke;
     display: grid;
     grid-template-columns: 1fr 1fr;
+}
+
+.navbar-links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    grid-gap: 10px;
 }

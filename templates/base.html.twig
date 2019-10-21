@@ -11,22 +11,17 @@
     <body>
         {% block body %}
             <nav class="navbar">
+                <div>
+                    <a href="{{ path('news_list') }}">TechWatch</a>
+                </div>
+                <div class="navbar-links">
                 {% if app.user %}
-                    <div>
-                        Hi {{ app.user.username }}!
-                    </div>
-                    <ul>
-                        <li><a class="btn btn-secondary" href="{{ path("news_create") }}">Add RSS feed</a></li>
-                        <li><a href="{{ path('app_logout') }}">Logout</a></li>
-                    </ul>
+                    <a class="btn btn-secondary" href="{{ path('news_create') }}">Add RSS feed</a>
+                    <a class="btn btn-warning" href="{{ path('app_logout') }}">Logout</a>
                 {% else %}
-                    <div>
-                        Hi there!
-                    </div>
-                    <ul>
-                        <li><a href="{{ path('app_login') }}">Login</a></li>
-                    </ul>
+                    <a class="btn btn-secondary" href="{{ path('app_login') }}">Login</a>
                 {% endif %}
+                </div>
             </nav>
             <header class="container-fluid">
                 {% block header %}{% endblock %}
