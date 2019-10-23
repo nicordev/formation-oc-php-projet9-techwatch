@@ -12,10 +12,10 @@
     <div class="row">
         {% for rssFeed in rssFeeds %}
             <div class="col-12 col-md-6 col-lg-4">
-                <h2><a href="{{ path('news_show', {id: rssFeed.id}) }}">{{ rssFeed.title }}</a></h2>
+                <h2><a href="{{ path('source_show', {id: rssFeed.id}) }}">{{ rssFeed.title }}</a></h2>
 
                 {% if app.user %}
-                    <a class="btn btn-danger" href="{{ path('news_delete', {id: rssFeed.id}) }}">Delete</a>
+                    <a class="btn btn-danger" href="{{ path('source_delete', {id: rssFeed.id}) }}">Delete</a>
                 {% endif %}
 
                 <ul>
@@ -32,6 +32,9 @@
     <div class="row">
         {% for twitList in twitLists %}
             <div class="col-12 col-md-4">
+                {% if app.user %}
+                    <a class="btn btn-danger" href="{{ path('twit_list_delete', {id: twitList.id}) }}">Delete</a>
+                {% endif %}
                 {{ show_twit_list(twitList.target, null, 500, true, false)|raw }}
             </div>
         {% endfor %}

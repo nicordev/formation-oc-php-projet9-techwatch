@@ -51,12 +51,12 @@ class NewsController extends AbstractController
 
     /**
      * @Route(
-     *     "/news/{id}",
-     *     name="news_show",
+     *     "/source/{id}",
+     *     name="source_show",
      *     requirements={"id": "\d+"}
      * )
      */
-    public function showRssFeed(NewsFetcher $newsFetcher, Source $rssFeed)
+    public function showSource(NewsFetcher $newsFetcher, Source $rssFeed)
     {
         $rssFeed = $newsFetcher->fetchRssFeed($rssFeed->getUrl());
 
@@ -82,16 +82,33 @@ class NewsController extends AbstractController
 
     /**
      * @Route(
-     *     "/news/delete/{id}",
-     *     name="news_delete",
+     *     "/source/delete/{id}",
+     *     name="source_delete",
      *     requirements={"id": "\d+"}
      * )
      */
-    public function deleteRssFeed(Source $rssFeed, EntityManagerInterface $manager)
+    public function deleteSource(Source $rssFeed, EntityManagerInterface $manager)
     {
         $manager->remove($rssFeed);
         $manager->flush();
         $this->addFlash("notice", "The RSS feed has been deleted.");
+
+        return $this->redirectToRoute("news_list");
+    }
+
+    /**
+     * @Route(
+     *     "/twit-list/delete/{id}",
+     *     name="twit_list_delete",
+     *     requirements={"id": "\d+"}
+     * )
+     */
+    public function deleteTwitList(TwitList $twitList, EntityManagerInterface $manager)
+    {
+        $target = $twitList->getTarget();
+        $manager->remove($twitList);
+        $manager->flush();
+        $this->addFlash("notice", "The twit list {$target} has been deleted.");
 
         return $this->redirectToRoute("news_list");
     }
@@ -131,7 +148,7 @@ class NewsController extends AbstractController
             $manager->persist($twitList);
             $manager->flush();
 
-            $this->addFlash("success", "A new twit list has been created.");
+            $this->addFlash("success", "The twit list {$twitList->getTarget()} has been created.");
         }
 
         return $twitListForm;
