@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Source;
+use App\Entity\TwitList;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -25,6 +26,7 @@ class AppFixtures extends Fixture
     {
         $this->loadUser($manager);
         $this->loadSource($manager);
+        $this->loadTwitList($manager);
         $manager->flush();
     }
 
@@ -45,6 +47,18 @@ class AppFixtures extends Fixture
 
         foreach ($urls as $url) {
             $manager->persist((new Source())->setUrl($url));
+        }
+    }
+
+    private function loadTwitList(ObjectManager $manager)
+    {
+        $targets = [
+            "afup",
+            "TwitterDev"
+        ];
+
+        foreach ($targets as $target) {
+            $manager->persist((new TwitList())->setTarget($target));
         }
     }
 }

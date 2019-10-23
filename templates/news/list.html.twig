@@ -32,7 +32,7 @@
     <div class="row">
         {% for twitList in twitLists %}
             <div class="col-12 col-md-4">
-                {{ show_twit_list(twitList, null, 500, true, false)|raw }}
+                {{ show_twit_list(twitList.target, null, 500, true, false)|raw }}
             </div>
         {% endfor %}
     </div>

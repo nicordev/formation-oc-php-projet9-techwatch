@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Source;
 use App\Form\SourceType;
 use App\Repository\SourceRepository;
+use App\Repository\TwitListRepository;
 use App\Service\NewsFetcher;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,10 +19,14 @@ class NewsController extends AbstractController
      * @Route("/news", name="news_list")
      * @Route("/", name="home")
      */
-    public function list(NewsFetcher $newsFetcher, SourceRepository $repository)
-    {
+    public function list(
+        NewsFetcher $newsFetcher,
+        SourceRepository $sourceRepository,
+        TwitListRepository $twitListRepository
+    ) {
         $maxNewsCount = 3;
-        $sources = $repository->findAll();
+        $sources = $sourceRepository->findAll();
+        $twitLists = $twitListRepository->findAll();
         $rssFeeds = [];
 
         foreach ($sources as $source) {
@@ -38,7 +43,7 @@ class NewsController extends AbstractController
 
         return $this->render('news/list.html.twig', [
             "rssFeeds" => $rssFeeds,
-            "twitLists" => ["afup", "TwitterDev"]
+            "twitLists" => $twitLists
         ]);
     }
 
