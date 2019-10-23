@@ -2,7 +2,7 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Source;
+use App\Entity\RssSource;
 use App\Entity\TwitList;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -46,7 +46,7 @@ class AppFixtures extends Fixture
         ];
 
         foreach ($urls as $url) {
-            $manager->persist((new Source())->setUrl($url));
+            $manager->persist((new RssSource())->setUrl($url));
         }
     }
 

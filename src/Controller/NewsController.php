@@ -2,11 +2,11 @@
 
 namespace App\Controller;
 
-use App\Entity\Source;
+use App\Entity\RssSource;
 use App\Entity\TwitList;
-use App\Form\SourceType;
+use App\Form\RssSourceType;
 use App\Form\TwitListType;
-use App\Repository\SourceRepository;
+use App\Repository\RssSourceRepository;
 use App\Repository\TwitListRepository;
 use App\Service\NewsFetcher;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,22 +23,22 @@ class NewsController extends AbstractController
      */
     public function list(
         NewsFetcher $newsFetcher,
-        SourceRepository $sourceRepository,
+        RssSourceRepository $rssSourceRepository,
         TwitListRepository $twitListRepository
     ) {
         $maxNewsCount = 3;
-        $sources = $sourceRepository->findAll();
+        $rssSources = $rssSourceRepository->findAll();
         $twitLists = $twitListRepository->findAll();
         $rssFeeds = [];
 
-        foreach ($sources as $source) {
+        foreach ($rssSources as $rssSource) {
             try {
-                $feed = $newsFetcher->fetchRssFeed($source->getUrl(), $maxNewsCount);
+                $feed = $newsFetcher->fetchRssFeed($rssSource->getUrl(), $maxNewsCount);
             } catch (NotFoundHttpException $e) {
-                $this->addFlash("error", "{$source->getUrl()} not found.");
+                $this->addFlash("error", "{$rssSource->getUrl()} not found.");
             }
             if (!empty($feed)) {
-                $feed["id"] = $source->getId();
+                $feed["id"] = $rssSource->getId();
                 $rssFeeds[] = $feed;
             }
         }
@@ -51,14 +51,14 @@ class NewsController extends AbstractController
 
     /**
      * @Route(
-     *     "/source/{id}",
-     *     name="source_show",
+     *     "/rss-feed/{id}",
+     *     name="rss_feed_show",
      *     requirements={"id": "\d+"}
      * )
      */
-    public function showSource(NewsFetcher $newsFetcher, Source $rssFeed)
+    public function showRssFeed(NewsFetcher $newsFetcher, RssSource $rssSource)
     {
-        $rssFeed = $newsFetcher->fetchRssFeed($rssFeed->getUrl());
+        $rssFeed = $newsFetcher->fetchRssFeed($rssSource->getUrl());
 
         return $this->render('news/show.html.twig', ["rssFeed" => $rssFeed]);
     }
@@ -71,25 +71,25 @@ class NewsController extends AbstractController
         EntityManagerInterface $manager,
         NewsFetcher $newsFetcher
     ) {
-        $sourceForm = $this->handleSourceCreation($request, $manager, $newsFetcher);
+        $rssSourceForm = $this->handleRssFeedCreation($request, $manager, $newsFetcher);
         $twitListForm = $this->handleTwitListCreation($request, $manager);
 
         return $this->render('news/create.html.twig', [
-            "rssFeedForm" => $sourceForm->createView(),
+            "rssSourceForm" => $rssSourceForm->createView(),
             "twitListForm" => $twitListForm->createView()
         ]);
     }
 
     /**
      * @Route(
-     *     "/source/delete/{id}",
-     *     name="source_delete",
+     *     "/rss-feed/delete/{id}",
+     *     name="rss_feed_delete",
      *     requirements={"id": "\d+"}
      * )
      */
-    public function deleteSource(Source $rssFeed, EntityManagerInterface $manager)
+    public function deleteRssFeed(RssSource $rssSource, EntityManagerInterface $manager)
     {
-        $manager->remove($rssFeed);
+        $manager->remove($rssSource);
         $manager->flush();
         $this->addFlash("notice", "The RSS feed has been deleted.");
 
@@ -113,27 +113,27 @@ class NewsController extends AbstractController
         return $this->redirectToRoute("news_list");
     }
 
-    private function handleSourceCreation(
+    private function handleRssFeedCreation(
         Request $request,
         EntityManagerInterface $manager,
         NewsFetcher $newsFetcher
     ) {
-        $source = new Source();
-        $sourceForm = $this->createForm(SourceType::class, $source);
-        $sourceForm->handleRequest($request);
+        $rssSource = new RssSource();
+        $rssSourceForm = $this->createForm(RssSourceType::class, $rssSource);
+        $rssSourceForm->handleRequest($request);
 
-        if ($sourceForm->isSubmitted() && $sourceForm->isValid()) {
-            if (!$newsFetcher->canBeParsedAsXml($source->getUrl())) {
-                $this->addFlash("error", "The URL {$source->getUrl()} does not provide valid XML data.");
+        if ($rssSourceForm->isSubmitted() && $rssSourceForm->isValid()) {
+            if (!$newsFetcher->canBeParsedAsXml($rssSource->getUrl())) {
+                $this->addFlash("error", "The URL {$rssSource->getUrl()} does not provide valid XML data.");
             } else {
-                $manager->persist($source);
+                $manager->persist($rssSource);
                 $manager->flush();
 
                 $this->addFlash("success", "A new RSS feed has been created.");
             }
         }
 
-        return $sourceForm;
+        return $rssSourceForm;
     }
 
     private function handleTwitListCreation(
