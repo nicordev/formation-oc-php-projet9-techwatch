@@ -7,8 +7,16 @@
 {% endblock %}
 
 {% block content %}
-    {{ form_start(rssFeedForm) }}
-    {{ form_row(rssFeedForm.url) }}
-    <button type="submit">Add</button>
-    {{ form_end(rssFeedForm) }}
+    <div>
+        {{ form_start(rssFeedForm) }}
+        {{ form_row(rssFeedForm.url) }}
+        <button type="submit">Add</button>
+        {{ form_end(rssFeedForm) }}
+    </div>
+    <div>
+        {{ form_start(twitListForm) }}
+        {{ form_row(twitListForm.target) }}
+        <button type="submit">Add</button>
+        {{ form_end(twitListForm) }}
+    </div>
 {% endblock %}

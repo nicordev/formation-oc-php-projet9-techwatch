@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Source;
+use App\Entity\TwitList;
 use App\Form\SourceType;
+use App\Form\TwitListType;
 use App\Repository\SourceRepository;
 use App\Repository\TwitListRepository;
 use App\Service\NewsFetcher;
@@ -64,25 +66,18 @@ class NewsController extends AbstractController
     /**
      * @Route("/news/create", name="news_create")
      */
-    public function createRssFeed(Request $request, EntityManagerInterface $manager, NewsFetcher $newsFetcher)
-    {
-        $source = new Source();
+    public function create(
+        Request $request,
+        EntityManagerInterface $manager,
+        NewsFetcher $newsFetcher
+    ) {
+        $sourceForm = $this->handleSourceCreation($request, $manager, $newsFetcher);
+        $twitListForm = $this->handleTwitListCreation($request, $manager);
 
-        $form = $this->createForm(SourceType::class, $source);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            if (!$newsFetcher->canBeParsedAsXml($source->getUrl())) {
-                $this->addFlash("error", "The URL {$source->getUrl()} does not provide valid XML data.");
-            } else {
-                $manager->persist($source);
-                $manager->flush();
-
-                $this->addFlash("success", "A new RSS feed has been created.");
-            }
-        }
-
-        return $this->render('news/create.html.twig', ["rssFeedForm" => $form->createView()]);
+        return $this->render('news/create.html.twig', [
+            "rssFeedForm" => $sourceForm->createView(),
+            "twitListForm" => $twitListForm->createView()
+        ]);
     }
 
     /**
@@ -99,5 +94,46 @@ class NewsController extends AbstractController
         $this->addFlash("notice", "The RSS feed has been deleted.");
 
         return $this->redirectToRoute("news_list");
+    }
+
+    private function handleSourceCreation(
+        Request $request,
+        EntityManagerInterface $manager,
+        NewsFetcher $newsFetcher
+    ) {
+        $source = new Source();
+        $sourceForm = $this->createForm(SourceType::class, $source);
+        $sourceForm->handleRequest($request);
+
+        if ($sourceForm->isSubmitted() && $sourceForm->isValid()) {
+            if (!$newsFetcher->canBeParsedAsXml($source->getUrl())) {
+                $this->addFlash("error", "The URL {$source->getUrl()} does not provide valid XML data.");
+            } else {
+                $manager->persist($source);
+                $manager->flush();
+
+                $this->addFlash("success", "A new RSS feed has been created.");
+            }
+        }
+
+        return $sourceForm;
+    }
+
+    private function handleTwitListCreation(
+        Request $request,
+        EntityManagerInterface $manager
+    ) {
+        $twitList = new TwitList();
+        $twitListForm = $this->createForm(TwitListType::class, $twitList);
+        $twitListForm->handleRequest($request);
+
+        if ($twitListForm->isSubmitted() && $twitListForm->isValid()) {
+            $manager->persist($twitList);
+            $manager->flush();
+
+            $this->addFlash("success", "A new twit list has been created.");
+        }
+
+        return $twitListForm;
     }
 }
