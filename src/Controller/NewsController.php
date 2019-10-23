@@ -9,6 +9,7 @@ use App\Service\NewsFetcher;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class NewsController extends AbstractController
@@ -24,9 +25,15 @@ class NewsController extends AbstractController
         $rssFeeds = [];
 
         foreach ($sources as $source) {
-            $feed = $newsFetcher->fetchRssFeed($source->getUrl(), $maxNewsCount);
-            $feed["id"] = $source->getId();
-            $rssFeeds[] = $feed;
+            try {
+                $feed = $newsFetcher->fetchRssFeed($source->getUrl(), $maxNewsCount);
+            } catch (NotFoundHttpException $e) {
+                $this->addFlash("error", "{$source->getUrl()} not found.");
+            }
+            if (!empty($feed)) {
+                $feed["id"] = $source->getId();
+                $rssFeeds[] = $feed;
+            }
         }
 
         return $this->render('news/list.html.twig', [
