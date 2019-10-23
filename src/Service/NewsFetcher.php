@@ -24,7 +24,6 @@ class NewsFetcher
         }
 
         $rssFeed = [];
-
         $rssFeed["title"] = $xmlFeed->channel->title;
         $rssFeed["description"] = $xmlFeed->channel->description;
 
@@ -65,6 +64,12 @@ class NewsFetcher
         return true;
     }
 
+    /**
+     * Send a curl request to the URL and return the response
+     *
+     * @param string $url
+     * @return bool|string
+     */
     private function fetch(string $url)
     {
         $curlSession = curl_init(); // Initialise curl
