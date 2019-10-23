@@ -52,7 +52,7 @@ class NewsController extends AbstractController
     /**
      * @Route("/news/create", name="news_create")
      */
-    public function createRssFeed(Request $request, EntityManagerInterface $manager)
+    public function createRssFeed(Request $request, EntityManagerInterface $manager, NewsFetcher $newsFetcher)
     {
         $source = new Source();
 
@@ -60,10 +60,14 @@ class NewsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $manager->persist($source);
-            $manager->flush();
+            if (!$newsFetcher->canBeParsedAsXml($source->getUrl())) {
+                $this->addFlash("error", "The URL {$source->getUrl()} does not provide valid XML data.");
+            } else {
+                $manager->persist($source);
+                $manager->flush();
 
-            return $this->redirectToRoute("news_list");
+                $this->addFlash("success", "A new RSS feed has been created.");
+            }
         }
 
         return $this->render('news/create.html.twig', ["rssFeedForm" => $form->createView()]);
