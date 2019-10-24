@@ -3,7 +3,7 @@
 {% block title %}{{ rssFeed.title }}{% endblock %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset("css/news_list.css") }}">
+    <link rel="stylesheet" href="{{ asset("css/rss_feed_show.css") }}">
 {% endblock %}
 
 {% block header %}
@@ -13,8 +13,12 @@
 {% block content %}
     <div id="feed-list" class="row">
         {% for article in rssFeed.items %}
-            <div class="col-12 col-md-6 col-lg-4 feed-item">
-                <h2>{{ article.title }}<span class="btn btn-secondary show-content-btn">+</span></h2>
+            <div class="col-12 col-md-6 col-lg-4 text-justify px-1 py-3 p-md-4 feed-item">
+                <h2>{{ article.title }}</h2>
+
+                <div class="feed-abstract text-muted">{{ article.description|abstract }}</div>
+
+                <div class="text-center mt-2"><span class="btn btn-secondary show-content-btn">Read more</span></div>
 
                 <div class="feed-content hidden">
                     {{ article.description|raw }}

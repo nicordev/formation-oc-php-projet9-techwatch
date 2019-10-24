@@ -23,15 +23,18 @@
                 {% endif %}
                 </div>
             </nav>
-            <header class="container-fluid">
+
+            <header class="container-fluid text-center my-3 text-break">
                 {% block header %}{% endblock %}
             </header>
+
             <div class="container-fluid">
                 {% block flashMessages %}
                     {% include "flash_message/flash_message.html.twig" %}
                 {% endblock %}
                 {% block content %}{% endblock %}
             </div>
+
             <footer class="container-fluid">
                 {% block footer %}OpenClassrooms project 9{% endblock %}
             </footer>

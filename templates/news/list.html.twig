@@ -3,19 +3,21 @@
 {% block title %}TechWatch - News{% endblock %}
 
 {% block header %}
-    <h1>TechWatch</h1>
+    <h1>News</h1>
 {% endblock %}
 
 {% block content %}
-    <h2>RSS</h2>
+    <h2 class="text-center border border-secondary rounded-pill">RSS</h2>
 
     <div class="row">
         {% for rssFeed in rssFeeds %}
-            <div class="col-12 col-md-6 col-lg-4">
-                <h2><a href="{{ path('rss_feed_show', {id: rssFeed.id}) }}">{{ rssFeed.title }}</a></h2>
+            <div class="col-12 col-md-6">
+                <h2 class="text-center bg-dark p-1 rounded-pill"><a class="text-decoration-none text-light" href="{{ path('rss_feed_show', {id: rssFeed.id}) }}">{{ rssFeed.title }}</a></h2>
 
                 {% if app.user %}
-                    <a class="btn btn-danger" href="{{ path('rss_source_delete', {id: rssFeed.id}) }}">Delete</a>
+                    <div class="text-center">
+                        <a class="btn btn-danger" href="{{ path('rss_source_delete', {id: rssFeed.id}) }}">Delete</a>
+                    </div>
                 {% endif %}
 
                 <ul>
@@ -27,13 +29,15 @@
         {% endfor %}
     </div>
 
-    <h2>Twitter</h2>
+    <h2 class="text-center border border-secondary rounded-pill">Twitter</h2>
 
     <div class="row">
         {% for twitList in twitLists %}
-            <div class="col-12 col-md-4">
+            <div class="col-12 col-md-3">
                 {% if app.user %}
-                    <a class="btn btn-danger" href="{{ path('twit_list_delete', {id: twitList.id}) }}">Delete</a>
+                    <div class="text-center my-2">
+                        <a class="btn btn-danger" href="{{ path('twit_list_delete', {id: twitList.id}) }}">Delete</a>
+                    </div>
                 {% endif %}
                 {{ show_twit_list(twitList.target, null, 500, true, false)|raw }}
             </div>

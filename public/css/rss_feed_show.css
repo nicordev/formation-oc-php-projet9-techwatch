@@ -1,12 +1,10 @@
-#feed-list img, #feed-list iframe {
-    max-width: 100%;
+/* Override the bootstrap class to fit in the screen width */
+.row {
+    margin: 0;
 }
 
-.feed-item {
-    margin: 10px;
-    padding: 10px;
-    border: #20262e solid 1px;
-    border-radius: 3px;
+#feed-list img, #feed-list iframe {
+    max-width: 100%;
 }
 
 .feed-content {
