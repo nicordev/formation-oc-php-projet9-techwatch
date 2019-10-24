@@ -17,10 +17,17 @@ function ElementDisplayHandler() {
             expandedButtonContent = "-",
             retractedButtonContent = "+"
         ) {
-
             that.retractedClass = retractedClass;
             that.expandedButtonContent = expandedButtonContent;
             that.retractedButtonContent = retractedButtonContent;
+        },
+
+        applyToElementsOnClick: function (elements) {
+            for (let element of elements) {
+                element.addEventListener("click", function () {
+                    that.toggleExpandNextElement(element);
+                });
+            }
         },
 
         /**

@@ -83,15 +83,15 @@ class NewsController extends AbstractController
     /**
      * @Route(
      *     "/rss-feed/delete/{id}",
-     *     name="rss_feed_delete",
+     *     name="rss_source_delete",
      *     requirements={"id": "\d+"}
      * )
      */
-    public function deleteRssFeed(RssSource $rssSource, EntityManagerInterface $manager)
+    public function deleteRssSource(RssSource $rssSource, EntityManagerInterface $manager)
     {
         $manager->remove($rssSource);
         $manager->flush();
-        $this->addFlash("notice", "The RSS feed has been deleted.");
+        $this->addFlash("notice", "The RSS source has been deleted.");
 
         return $this->redirectToRoute("news_list");
     }

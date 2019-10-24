@@ -1,10 +1,5 @@
-let showArticleButtons = document.getElementsByClassName('show-article-btn'),
+let showArticleButtons = document.getElementsByClassName('show-content-btn'),
     elementDisplayHandler = new ElementDisplayHandler();
 
 elementDisplayHandler.init("hidden", '-', '+');
-
-for (let button of showArticleButtons) {
-    button.addEventListener("click", function () {
-        elementDisplayHandler.toggleExpandNextElement(button);
-    });
-}
+elementDisplayHandler.applyToElementsOnClick(showArticleButtons);
