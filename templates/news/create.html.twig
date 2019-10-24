@@ -8,16 +8,31 @@
 
 {% block content %}
     <div class="row">
+        <h2>RSS</h2>
+
         <div class="col-12">
             {{ form_start(rssSourceForm) }}
-            {{ form_row(rssSourceForm.url) }}
-            <button type="submit">Add</button>
+            {{ form_row(rssSourceForm.url, {
+                "label": "RSS source URL",
+                "attr": {
+                    "placeholder": "https://my.awesome.rss.feed.com"
+                }
+            }) }}
+            <button class="btn btn-success" type="submit">Add</button>
             {{ form_end(rssSourceForm) }}
         </div>
+
+        <h2>Twitter</h2>
+
         <div class="col-12">
             {{ form_start(twitListForm) }}
-            {{ form_row(twitListForm.target) }}
-            <button type="submit">Add</button>
+            {{ form_row(twitListForm.target, {
+                "label": "Twitter nickname @",
+                "attr": {
+                    "placeholder": "chucknorris"
+                }
+            }) }}
+            <button class="btn btn-success" type="submit">Add</button>
             {{ form_end(twitListForm) }}
         </div>
     </div>
