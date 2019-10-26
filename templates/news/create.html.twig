@@ -7,10 +7,10 @@
 {% endblock %}
 
 {% block content %}
-    <div class="row">
-        <h2>RSS</h2>
+    <div class="row justify-content-center">
+        <h2 class="col-12 text-center pt-3">RSS</h2>
 
-        <div class="col-12">
+        <div class="col-12 col-md-5 px-3">
             {{ form_start(rssSourceForm) }}
             {{ form_row(rssSourceForm.url, {
                 "label": "RSS source URL",
@@ -22,9 +22,9 @@
             {{ form_end(rssSourceForm) }}
         </div>
 
-        <h2>Twitter</h2>
+        <h2 class="col-12 text-center pt-3">Twitter</h2>
 
-        <div class="col-12">
+        <div class="col-12 col-md-5 px-3 pb-3">
             {{ form_start(twitListForm) }}
             {{ form_row(twitListForm.target, {
                 "label": "Twitter nickname @",
