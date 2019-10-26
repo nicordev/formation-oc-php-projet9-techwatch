@@ -5,14 +5,18 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         {# Bootstrap #}
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ asset('css/colors.css') }}">
         <link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/logo.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/main_header.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/main_footer.css') }}">
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
         {% block body %}
             <nav class="navbar">
                 <div>
-                    <a href="{{ path('news_list') }}">TechWatch</a>
+                    <a class="logo" href="{{ path('news_list') }}">TechWatch</a>
                 </div>
                 <div class="navbar-links">
                 {% if app.user %}
@@ -24,19 +28,19 @@
                 </div>
             </nav>
 
-            <header class="container-fluid text-center my-3 text-break">
+            <header class="container-fluid text-center text-break block-header">
                 {% block header %}{% endblock %}
             </header>
 
-            <div class="container-fluid">
+            <div class="container-fluid block-content">
                 {% block flashMessages %}
                     {% include "flash_message/flash_message.html.twig" %}
                 {% endblock %}
                 {% block content %}{% endblock %}
             </div>
 
-            <footer class="container-fluid">
-                {% block footer %}OpenClassrooms project 9{% endblock %}
+            <footer class="container-fluid text-center text-break block-footer">
+                {% block footer %}<a class="logo" href="#">TechWatch</a>{% endblock %}
             </footer>
         {% endblock %}
         {% block javascripts %}{% endblock %}

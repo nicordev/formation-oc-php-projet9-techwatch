@@ -1,0 +1,11 @@
+.logo {
+    color: whitesmoke;
+    transition-property: text-shadow;
+    transition-duration: 100ms;
+}
+
+.logo:hover {
+    color: whitesmoke;
+    text-decoration: none;
+    text-shadow: azure -2px 2px 2px;
+}
