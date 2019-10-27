@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use Michelf\Markdown;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class NewsFetcher
@@ -81,10 +82,22 @@ class NewsFetcher
         return curl_exec($curlSession); // Send the request
     }
 
-    private function prepareRssItem($element)
+    /**
+     * Ensure that an RSS item does have the required fields
+     *
+     * Can also parse markdown
+     *
+     * @param $element
+     */
+    private function prepareRssItem($element, bool $parseMarkdown = true)
     {
         if (!isset($element->title)) {
             $element->title = "Missing title.";
         }
+        if (!isset($element->description)) {
+            $element->title = "Missing description.";
+        }
+        $element->title = Markdown::defaultTransform($element->title);
+        $element->description = Markdown::defaultTransform($element->description);
     }
 }
