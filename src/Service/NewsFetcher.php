@@ -35,7 +35,7 @@ class NewsFetcher
         if ($limit) {
             $i = 0;
             foreach ($xmlFeed->channel->item as $element) {
-                $this->prepareRssItem($element);
+                $this->prepareRssItem($element, $parseMarkdownForDescription, $parseMarkdownForTitle);
                 $rssFeed["items"][] = $element;
                 $i++;
                 if ($i >= $limit) {
@@ -44,7 +44,7 @@ class NewsFetcher
             }
         } else {
             foreach ($xmlFeed->channel->item as $element) {
-                $this->prepareRssItem($element);
+                $this->prepareRssItem($element, $parseMarkdownForDescription, $parseMarkdownForTitle);
                 $rssFeed["items"][] = $element;
             }
         }
