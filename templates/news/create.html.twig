@@ -1,14 +1,39 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}TechWatch - New RSS feed{% endblock %}
+{% block title %}TechWatch - New source{% endblock %}
 
 {% block header %}
-    <h1>New RSS feed</h1>
+    <h1>New source</h1>
 {% endblock %}
 
 {% block content %}
-    {{ form_start(rssFeedForm) }}
-    {{ form_row(rssFeedForm.url) }}
-    <button type="submit">Add</button>
-    {{ form_end(rssFeedForm) }}
+    <div class="row justify-content-center">
+        <h2 class="col-12 text-center pt-3">RSS</h2>
+
+        <div class="col-12 col-md-5 px-3">
+            {{ form_start(rssSourceForm) }}
+            {{ form_row(rssSourceForm.url, {
+                "label": "RSS source URL",
+                "attr": {
+                    "placeholder": "https://my.awesome.rss.feed.com"
+                }
+            }) }}
+            <button class="btn btn-success" type="submit">Add</button>
+            {{ form_end(rssSourceForm) }}
+        </div>
+
+        <h2 class="col-12 text-center pt-3">Twitter</h2>
+
+        <div class="col-12 col-md-5 px-3 pb-3">
+            {{ form_start(twitListForm) }}
+            {{ form_row(twitListForm.target, {
+                "label": "Twitter nickname @",
+                "attr": {
+                    "placeholder": "chucknorris"
+                }
+            }) }}
+            <button class="btn btn-success" type="submit">Add</button>
+            {{ form_end(twitListForm) }}
+        </div>
+    </div>
 {% endblock %}

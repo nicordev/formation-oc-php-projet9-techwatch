@@ -2,6 +2,8 @@
 
 namespace App\Service;
 
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
 class NewsFetcher
 {
     /**
@@ -13,13 +15,15 @@ class NewsFetcher
      */
     public function fetchRssFeed(string $url, ?int $limit = null)
     {
-        $curlSession = curl_init(); // Initialise curl
-        curl_setopt($curlSession, CURLOPT_URL, $url); // Set the requested url
-        curl_setopt($curlSession, CURLOPT_RETURNTRANSFER, true); // We only want a string
-        $response = curl_exec($curlSession); // Send the request
-        $xmlFeed = new \SimpleXMLElement($response); // The response content is XML
-        $rssFeed = [];
+        $response = $this->fetch($url);
 
+        try {
+            $xmlFeed = new \SimpleXMLElement($response); // The response content is XML
+        } catch (\Exception $e) {
+            throw new NotFoundHttpException("The URL {$url} does not send valid xml.");
+        }
+
+        $rssFeed = [];
         $rssFeed["title"] = $xmlFeed->channel->title;
         $rssFeed["description"] = $xmlFeed->channel->description;
 
@@ -39,5 +43,39 @@ class NewsFetcher
         }
 
         return $rssFeed;
+    }
+
+    /**
+     * Check if the response from the URL can be parsed as XML
+     *
+     * @param string $url
+     * @return bool
+     */
+    public function canBeParsedAsXml(string $url)
+    {
+        $response = $this->fetch($url);
+
+        try {
+            new \SimpleXMLElement($response);
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Send a curl request to the URL and return the response
+     *
+     * @param string $url
+     * @return bool|string
+     */
+    private function fetch(string $url)
+    {
+        $curlSession = curl_init(); // Initialise curl
+        curl_setopt($curlSession, CURLOPT_URL, $url); // Set the requested url
+        curl_setopt($curlSession, CURLOPT_RETURNTRANSFER, true); // We only want a string
+
+        return curl_exec($curlSession); // Send the request
     }
 }

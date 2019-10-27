@@ -1,0 +1,9 @@
+<div class="flash-messages">
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="flash-message flash-{{ label }} alert alert-primary" onclick="this.style.display = 'none';">
+                {{ message }} <span class="float-right font-size-medium">&times;</span>
+            </div>
+        {% endfor %}
+    {% endfor %}
+</div>

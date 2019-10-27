@@ -1,5 +1,5 @@
 .navbar {
-    background-color: #20262e;
+    background-color: var(--main-bg-color);
     color: whitesmoke;
     display: grid;
     grid-template-columns: 1fr 1fr;

@@ -1,0 +1,4 @@
+/* Override the bootstrap class to fit in the screen width */
+.row {
+    margin: 0;
+}
