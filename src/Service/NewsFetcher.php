@@ -30,6 +30,7 @@ class NewsFetcher
         if ($limit) {
             $i = 0;
             foreach ($xmlFeed->channel->item as $element) {
+                $this->prepareRssItem($element);
                 $rssFeed["items"][] = $element;
                 $i++;
                 if ($i >= $limit) {
@@ -38,6 +39,7 @@ class NewsFetcher
             }
         } else {
             foreach ($xmlFeed->channel->item as $element) {
+                $this->prepareRssItem($element);
                 $rssFeed["items"][] = $element;
             }
         }
@@ -77,5 +79,12 @@ class NewsFetcher
         curl_setopt($curlSession, CURLOPT_RETURNTRANSFER, true); // We only want a string
 
         return curl_exec($curlSession); // Send the request
+    }
+
+    private function prepareRssItem($element)
+    {
+        if (!isset($element->title)) {
+            $element->title = "Missing title.";
+        }
     }
 }
