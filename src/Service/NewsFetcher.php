@@ -14,8 +14,12 @@ class NewsFetcher
      * @param int|null $limit
      * @return array
      */
-    public function fetchRssFeed(string $url, ?int $limit = null)
-    {
+    public function fetchRssFeed(
+        string $url,
+        ?int $limit = null,
+        bool $parseMarkdownForDescription = true,
+        bool $parseMarkdownForTitle = false
+    ) {
         $response = $this->fetch($url);
 
         try {
@@ -88,16 +92,25 @@ class NewsFetcher
      * Can also parse markdown
      *
      * @param $element
+     * @param bool $parseMarkdownForDescription
+     * @param bool $parseMarkdownForTitle
      */
-    private function prepareRssItem($element, bool $parseMarkdown = true)
-    {
+    private function prepareRssItem(
+        $element,
+        bool $parseMarkdownForDescription = true,
+        bool $parseMarkdownForTitle = false
+    ) {
         if (!isset($element->title)) {
             $element->title = "Missing title.";
         }
         if (!isset($element->description)) {
             $element->title = "Missing description.";
         }
-        $element->title = Markdown::defaultTransform($element->title);
-        $element->description = Markdown::defaultTransform($element->description);
+        if ($parseMarkdownForDescription) {
+            $element->description = Markdown::defaultTransform($element->description);
+        }
+        if ($parseMarkdownForTitle) {
+            $element->title = Markdown::defaultTransform($element->title);
+        }
     }
 }

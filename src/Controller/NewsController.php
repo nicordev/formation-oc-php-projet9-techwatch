@@ -33,7 +33,12 @@ class NewsController extends AbstractController
 
         foreach ($rssSources as $rssSource) {
             try {
-                $feed = $newsFetcher->fetchRssFeed($rssSource->getUrl(), $maxNewsCount);
+                $feed = $newsFetcher->fetchRssFeed(
+                    $rssSource->getUrl(),
+                    $maxNewsCount,
+                    false,
+                    false
+                );
             } catch (NotFoundHttpException $e) {
                 $this->addFlash("error", "{$rssSource->getUrl()} not found.");
             }
