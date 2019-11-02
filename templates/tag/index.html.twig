@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TechWatch - Tags{% endblock %}
+
+{% block header %}
+    <h1>Tags</h1>
+{% endblock %}
+
+{% block content %}
+    {% if tags %}
+        <ul>
+        {% for tag in tags %}
+{#            TODO: make a show route to display a tag's sources#}
+            <li><a href="#">{{ tag.name }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No tag available. <a href="{{ path("tag_create") }}">Do you want to create one?</a></p>
+    {% endif %}
+{% endblock %}

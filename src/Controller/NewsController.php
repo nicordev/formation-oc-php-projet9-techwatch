@@ -133,7 +133,6 @@ class NewsController extends AbstractController
             } else {
                 $manager->persist($rssSource);
                 $manager->flush();
-
                 $this->addFlash("success", "A new RSS feed has been created.");
             }
         }

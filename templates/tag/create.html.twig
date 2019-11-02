@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TechWatch - New tag{% endblock %}
+
+{% block header %}
+    <h1>New tag</h1>
+{% endblock %}
+
+{% block content %}
+
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-5 px-3 mb-3">
+            {{ form_start(tagForm) }}
+            {{ form_row(tagForm.name) }}
+            <button class="btn btn-success" type="submit">Add</button>
+            {{ form_end(tagForm) }}
+        </div>
+
+        <div class="col-12 col-md-5 px-3 mb-3">
+        {% if tags %}
+            <h2>Existing tags</h2>
+
+            <ul>
+                {% for tag in tags %}
+                    <li><a href="#">{{ tag.name }}</a></li>{# TODO: make a show route to display a tag's sources#}
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No tag available.</p>
+        {% endif %}
+        </div>
+    </div>
+{% endblock %}
