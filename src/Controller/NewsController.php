@@ -45,6 +45,7 @@ class NewsController extends AbstractController
             if (!empty($feed)) {
                 $feed["id"] = $rssSource->getId();
                 $feed["tags"] = $rssSource->getTags();
+                $feed["name"] = $rssSource->getName();
                 $rssFeeds[] = $feed;
             }
         }

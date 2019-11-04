@@ -19,9 +19,17 @@
                 }
             }) }}
 
-            {{ form_row(rssSourceForm.tags, {
-                "label": "Associated tags"
+            {{ form_row(rssSourceForm.name, {
+                "label": "(optional) Name",
+                "attr": {
+                    "placeholder": "You can set a custom name here"
+                }
             }) }}
+
+            {{ form_row(rssSourceForm.tags, {
+                "label": "(optional) Associated tags"
+            }) }}
+
             <button class="btn btn-success" type="submit">Add</button>
             {{ form_end(rssSourceForm) }}
         </div>
@@ -37,9 +45,17 @@
                 }
             }) }}
 
-            {{ form_row(twitListForm.tags, {
-                "label": "Associated tags"
+            {{ form_row(twitListForm.name, {
+                "label": "(optional) Name",
+                "attr": {
+                    "placeholder": "You can set a custom name here"
+                }
             }) }}
+
+            {{ form_row(twitListForm.tags, {
+                "label": "(optional) Associated tags"
+            }) }}
+
             <button class="btn btn-success" type="submit">Add</button>
             {{ form_end(twitListForm) }}
         </div>

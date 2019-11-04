@@ -14,7 +14,7 @@
     <div class="row justify-content-center mb-3">
         {% for rssFeed in rssFeeds %}
             <div class="col-12 col-md-4">
-                <h3 class="text-center bg-dark p-1 rounded-pill"><a class="text-decoration-none text-light" href="{{ path('rss_feed_show', {id: rssFeed.id}) }}">{{ rssFeed.title }}</a></h3>
+                <h3 class="text-center bg-dark p-1 rounded-pill"><a class="text-decoration-none text-light" href="{{ path('rss_feed_show', {id: rssFeed.id}) }}">{{ rssFeed.name ?? rssFeed.title }}</a></h3>
 
                 {% if app.user %}
                     <div class="text-center">
@@ -42,6 +42,8 @@
     <div class="row justify-content-center mt-3">
         {% for twitList in twitLists %}
             <div class="col-12 col-md-3">
+                <h3 class="text-center bg-dark p-1 rounded-pill">{{ twitList.name ?? twitList.target }}</h3>
+
                 {% if app.user %}
                     <div class="text-center my-2">
                         <a class="btn btn-danger" href="{{ path('twit_list_delete', {id: twitList.id}) }}">Delete</a>
