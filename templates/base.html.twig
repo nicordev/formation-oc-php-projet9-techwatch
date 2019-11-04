@@ -21,8 +21,8 @@
                 </div>
                 <div class="navbar-links">
                 {% if app.user %}
-                    <a class="btn btn-secondary" href="{{ path('tag_create') }}">New tag</a>
                     <a class="btn btn-secondary" href="{{ path('news_create') }}">New source</a>
+                    <a class="btn btn-secondary" href="{{ path('tag') }}">Tags</a>
                     <a class="btn btn-warning" href="{{ path('app_logout') }}">Logout</a>
                 {% else %}
                     <a class="btn btn-secondary" href="{{ path('app_login') }}">Login</a>

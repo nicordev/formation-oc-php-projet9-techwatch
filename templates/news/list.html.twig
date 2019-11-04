@@ -22,6 +22,14 @@
                     </div>
                 {% endif %}
 
+                {% if rssFeed.tags %}
+                <ul class="row justify-content-center">
+                    {% for tag in rssFeed.tags %}
+                        <li class="col-3">{{ tag.name }}</li>{# TODO: put a link to filter using this tag #}
+                    {% endfor %}
+                </ul>
+                {% endif %}
+
                 <ul>
                 {% for article in rssFeed.items %}
                     <li>{{ article.title }}</li>

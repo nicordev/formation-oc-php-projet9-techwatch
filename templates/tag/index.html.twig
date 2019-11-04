@@ -7,14 +7,31 @@
 {% endblock %}
 
 {% block content %}
-    {% if tags %}
-        <ul>
-        {% for tag in tags %}
-{#            TODO: make a show route to display a tag's sources#}
-            <li><a href="#">{{ tag.name }}</a></li>
-        {% endfor %}
-        </ul>
-    {% else %}
-        <p>No tag available. <a href="{{ path("tag_create") }}">Do you want to create one?</a></p>
-    {% endif %}
+
+    <div class="row justify-content-center">
+        <div class="col-12 px-3 mb-3">
+            {{ form_start(tagForm) }}
+            {{ form_row(tagForm.name, {
+                "attr": {
+                    "placeholder": "New tag"
+                }
+            }) }}
+            <button class="btn btn-success" type="submit">Add</button>
+            {{ form_end(tagForm) }}
+        </div>
+
+        <div class="col-12 px-3 mb-3">
+            {% if tags %}
+                <h2>Existing tags</h2>
+
+                <ul>
+                    {% for tag in tags %}
+                        <li><a href="#">{{ tag.name }}</a><a class="btn btn-danger ml-3" href="{{ path("tag_delete", {"id": tag.id}) }}">Delete</a></li>{# TODO: add a link to news filtering this tag, add a delete button #}
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No tag available.</p>
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}
