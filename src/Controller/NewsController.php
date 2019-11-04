@@ -7,6 +7,7 @@ use App\Entity\TwitList;
 use App\Form\RssSourceType;
 use App\Form\TwitListType;
 use App\Repository\RssSourceRepository;
+use App\Repository\TagRepository;
 use App\Repository\TwitListRepository;
 use App\Service\NewsFetcher;
 use Doctrine\ORM\EntityManagerInterface;
@@ -78,12 +79,68 @@ class NewsController extends AbstractController
         EntityManagerInterface $manager,
         NewsFetcher $newsFetcher
     ) {
-        $rssSourceForm = $this->handleRssFeedCreation($request, $manager, $newsFetcher);
-        $twitListForm = $this->handleTwitListCreation($request, $manager);
+        $rssSourceForm = $this->handleRssSourceForm($request, $manager, $newsFetcher);
+        $twitListForm = $this->handleTwitListForm($request, $manager);
 
         return $this->render('news/create.html.twig', [
             "rssSourceForm" => $rssSourceForm->createView(),
             "twitListForm" => $twitListForm->createView()
+        ]);
+    }
+
+    /**
+     * @Route(
+     *     "/rss-feed/edit/{id}",
+     *     name="rss_source_edit",
+     *     requirements={"id": "\d+"}
+     * )
+     */
+    public function editRssSource(
+        RssSource $rssSource,
+        Request $request,
+        EntityManagerInterface $manager,
+        NewsFetcher $newsFetcher,
+        TagRepository $tagRepository
+    ) {
+        $rssSourceForm = $this->handleRssSourceForm(
+            $request,
+            $manager,
+            $newsFetcher,
+            $rssSource
+        );
+        $availableTags = $tagRepository->findAll();
+
+        return $this->render('news/edit.html.twig', [
+            "rssSourceForm" => $rssSourceForm->createView(),
+            "twitListForm" => null,
+            "availableTags" => $availableTags
+        ]);
+    }
+
+    /**
+     * @Route(
+     *     "/twit-list/edit/{id}",
+     *     name="twit_list_edit",
+     *     requirements={"id": "\d+"}
+     * )
+     */
+    public function editTwitList(
+        TwitList $twitList,
+        Request $request,
+        EntityManagerInterface $manager,
+        TagRepository $tagRepository
+    ) {
+        $twitListForm = $this->handleTwitListForm(
+            $request,
+            $manager,
+            $twitList
+        );
+        $availableTags = $tagRepository->findAll();
+
+        return $this->render('news/edit.html.twig', [
+            "twitListForm" => $twitListForm->createView(),
+            "rssSourceForm" => null,
+            "availableTags" => $availableTags
         ]);
     }
 
@@ -120,12 +177,30 @@ class NewsController extends AbstractController
         return $this->redirectToRoute("news_list");
     }
 
-    private function handleRssFeedCreation(
+    /**
+     * Make a form to create or edit an RSS source and handle the request
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @param NewsFetcher $newsFetcher
+     * @param RssSource|null $rssSource
+     * @return \Symfony\Component\Form\FormInterface
+     */
+    private function handleRssSourceForm(
         Request $request,
         EntityManagerInterface $manager,
-        NewsFetcher $newsFetcher
+        NewsFetcher $newsFetcher,
+        ?RssSource $rssSource = null
     ) {
-        $rssSource = new RssSource();
+        if (null === $rssSource) {
+            $rssSource = new RssSource();
+            $successMessage = "A new RSS feed has been created.";
+        } else {
+            $successMessage = 'The RSS feed "' .
+                ($rssSource->getName() ?? $rssSource->getUrl()) .
+                '" has been modified.';
+        }
+
         $rssSourceForm = $this->createForm(RssSourceType::class, $rssSource);
         $rssSourceForm->handleRequest($request);
 
@@ -135,26 +210,42 @@ class NewsController extends AbstractController
             } else {
                 $manager->persist($rssSource);
                 $manager->flush();
-                $this->addFlash("success", "A new RSS feed has been created.");
+                $this->addFlash("success", $successMessage);
             }
         }
 
         return $rssSourceForm;
     }
 
-    private function handleTwitListCreation(
+    /**
+     * Make a form to create or edit a Twit list source and handle the request
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @param TwitList|null $twitList
+     * @return \Symfony\Component\Form\FormInterface
+     */
+    private function handleTwitListForm(
         Request $request,
-        EntityManagerInterface $manager
+        EntityManagerInterface $manager,
+        ?TwitList $twitList = null
     ) {
-        $twitList = new TwitList();
+        if (null === $twitList) {
+            $twitList = new TwitList();
+            $successMessage = "A new Twit list has been created.";
+        } else {
+            $successMessage = 'The Twit list "' .
+                ($twitList->getName() ?? $twitList->getTarget()) .
+                '" has been modified.';
+        }
+
         $twitListForm = $this->createForm(TwitListType::class, $twitList);
         $twitListForm->handleRequest($request);
 
         if ($twitListForm->isSubmitted() && $twitListForm->isValid()) {
             $manager->persist($twitList);
             $manager->flush();
-
-            $this->addFlash("success", "The twit list {$twitList->getTarget()} has been created.");
+            $this->addFlash("success", $successMessage);
         }
 
         return $twitListForm;

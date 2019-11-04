@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TechWatch - Edit a source{% endblock %}
+
+{% block header %}
+    <h1>Edit a source</h1>
+{% endblock %}
+
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-5 px-3">
+            {% if rssSourceForm %}
+                {{ form_start(rssSourceForm) }}
+                {{ form_row(rssSourceForm.url, {
+                    "label": "RSS source URL",
+                    "attr": {
+                        "placeholder": "https://my.awesome.rss.feed.com"
+                    }
+                }) }}
+
+                {{ form_row(rssSourceForm.name, {
+                    "label": "(optional) Name",
+                    "attr": {
+                        "placeholder": "You can set a custom name here"
+                    }
+                }) }}
+
+                {{ form_row(rssSourceForm.tags, {
+                    "label": "(optional) Associated tags"
+                }) }}
+
+                <button class="btn btn-success" type="submit">Edit</button>
+                {{ form_end(rssSourceForm) }}
+            {% elseif twitListForm %}
+                {{ form_start(twitListForm) }}
+                {{ form_row(twitListForm.target, {
+                    "label": "Twitter id @",
+                    "attr": {
+                        "placeholder": "chucknorris"
+                    }
+                }) }}
+
+                {{ form_row(twitListForm.name, {
+                    "label": "(optional) Name",
+                    "attr": {
+                        "placeholder": "You can set a custom name here"
+                    }
+                }) }}
+
+                {{ form_row(twitListForm.tags, {
+                    "label": "(optional) Associated tags"
+                }) }}
+
+                <button class="btn btn-success" type="submit">Edit</button>
+                {{ form_end(twitListForm) }}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

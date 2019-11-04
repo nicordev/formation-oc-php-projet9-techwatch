@@ -17,8 +17,9 @@
                 <h3 class="text-center bg-dark p-1 rounded-pill"><a class="text-decoration-none text-light" href="{{ path('rss_feed_show', {id: rssFeed.id}) }}">{{ rssFeed.name ?? rssFeed.title }}</a></h3>
 
                 {% if app.user %}
-                    <div class="text-center">
-                        <a class="btn btn-danger" href="{{ path('rss_source_delete', {id: rssFeed.id}) }}">Delete</a>
+                    <div class="row justify-content-around text-center">
+                        <a class="col-4 btn btn-warning" href="{{ path('rss_source_edit', {id: rssFeed.id}) }}">Edit</a>
+                        <a class="col-4 btn btn-danger" href="{{ path('rss_source_delete', {id: rssFeed.id}) }}">Delete</a>
                     </div>
                 {% endif %}
 
@@ -45,8 +46,9 @@
                 <h3 class="text-center bg-dark p-1 rounded-pill">{{ twitList.name ?? twitList.target }}</h3>
 
                 {% if app.user %}
-                    <div class="text-center my-2">
-                        <a class="btn btn-danger" href="{{ path('twit_list_delete', {id: twitList.id}) }}">Delete</a>
+                    <div class="row justify-content-around text-center my-2">
+                        <a class="col-4 btn btn-warning" href="{{ path('twit_list_edit', {id: twitList.id}) }}">Edit</a>
+                        <a class="col-4 btn btn-danger" href="{{ path('twit_list_delete', {id: twitList.id}) }}">Delete</a>
                     </div>
                 {% endif %}
                 {% if twitList.tags %}
