@@ -22,6 +22,14 @@
                     </div>
                 {% endif %}
 
+                {% if rssFeed.tags %}
+                <ul class="row justify-content-center">
+                    {% for tag in rssFeed.tags %}
+                        <li class="col-3">{{ tag.name }}</li>{# TODO: put a link to filter using this tag #}
+                    {% endfor %}
+                </ul>
+                {% endif %}
+
                 <ul>
                 {% for article in rssFeed.items %}
                     <li>{{ article.title }}</li>
@@ -38,6 +46,13 @@
                     <div class="text-center my-2">
                         <a class="btn btn-danger" href="{{ path('twit_list_delete', {id: twitList.id}) }}">Delete</a>
                     </div>
+                {% endif %}
+                {% if twitList.tags %}
+                    <ul>
+                        {% for tag in twitList.tags %}
+                            <li>{{ tag.name }}</li>
+                        {% endfor %}
+                    </ul>
                 {% endif %}
                 {{ show_twit_list(twitList.target, null, 500, true, false)|raw }}
             </div>

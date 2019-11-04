@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TechWatch - Tags{% endblock %}
+
+{% block header %}
+    <h1>Tags</h1>
+{% endblock %}
+
+{% block content %}
+
+    <div class="row justify-content-center">
+        <div class="col-12 px-3 mb-3">
+            {{ form_start(tagForm) }}
+            {{ form_row(tagForm.name, {
+                "attr": {
+                    "placeholder": "New tag"
+                }
+            }) }}
+            <button class="btn btn-success" type="submit">Add</button>
+            {{ form_end(tagForm) }}
+        </div>
+
+        <div class="col-12 px-3 mb-3">
+            {% if tags %}
+                <h2>Existing tags</h2>
+
+                <ul>
+                    {% for tag in tags %}
+                        <li><a href="#">{{ tag.name }}</a><a class="btn btn-danger ml-3" href="{{ path("tag_delete", {"id": tag.id}) }}">Delete</a></li>{# TODO: add a link to news filtering this tag, add a delete button #}
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No tag available.</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

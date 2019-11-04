@@ -18,6 +18,10 @@
                     "placeholder": "https://my.awesome.rss.feed.com"
                 }
             }) }}
+
+            {{ form_row(rssSourceForm.tags, {
+                "label": "Associated tags"
+            }) }}
             <button class="btn btn-success" type="submit">Add</button>
             {{ form_end(rssSourceForm) }}
         </div>
@@ -31,6 +35,10 @@
                 "attr": {
                     "placeholder": "chucknorris"
                 }
+            }) }}
+
+            {{ form_row(twitListForm.tags, {
+                "label": "Associated tags"
             }) }}
             <button class="btn btn-success" type="submit">Add</button>
             {{ form_end(twitListForm) }}

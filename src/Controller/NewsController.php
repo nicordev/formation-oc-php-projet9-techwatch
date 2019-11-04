@@ -44,6 +44,7 @@ class NewsController extends AbstractController
             }
             if (!empty($feed)) {
                 $feed["id"] = $rssSource->getId();
+                $feed["tags"] = $rssSource->getTags();
                 $rssFeeds[] = $feed;
             }
         }
@@ -133,7 +134,6 @@ class NewsController extends AbstractController
             } else {
                 $manager->persist($rssSource);
                 $manager->flush();
-
                 $this->addFlash("success", "A new RSS feed has been created.");
             }
         }
