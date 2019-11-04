@@ -110,8 +110,9 @@ class NewsController extends AbstractController
         );
         $availableTags = $tagRepository->findAll();
 
-        return $this->render('news/edit_rss_source.html.twig', [
+        return $this->render('news/edit.html.twig', [
             "rssSourceForm" => $rssSourceForm->createView(),
+            "twitListForm" => null,
             "availableTags" => $availableTags
         ]);
     }
@@ -136,8 +137,9 @@ class NewsController extends AbstractController
         );
         $availableTags = $tagRepository->findAll();
 
-        return $this->render('news/edit_twit_list.html.twig', [
+        return $this->render('news/edit.html.twig', [
             "twitListForm" => $twitListForm->createView(),
+            "rssSourceForm" => null,
             "availableTags" => $availableTags
         ]);
     }
