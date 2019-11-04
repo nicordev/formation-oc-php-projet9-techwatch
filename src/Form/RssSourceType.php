@@ -19,6 +19,7 @@ class RssSourceType extends AbstractType
     {
         $builder
             ->add('url', UrlType::class)
+            ->add('name')
             ->add('tags', EntityType::class, [
                 'class' => Tag::class,
                 'choice_label' => 'name',

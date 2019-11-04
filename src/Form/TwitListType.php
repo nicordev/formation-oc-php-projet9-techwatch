@@ -15,6 +15,7 @@ class TwitListType extends AbstractType
     {
         $builder
             ->add('target')
+            ->add('name')
             ->add('tags', EntityType::class, [
                 'class' => Tag::class,
                 'choice_label' => 'name',
