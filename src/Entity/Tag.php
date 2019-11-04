@@ -19,14 +19,14 @@ class Tag
     private $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\RssSource", inversedBy="tags")
+     * @ORM\ManyToMany(targetEntity="App\Entity\RssSource", mappedBy="tags")
      */
-    private $RssSources;
+    private $rssSources;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\TwitList", inversedBy="tags")
+     * @ORM\ManyToMany(targetEntity="App\Entity\TwitList", mappedBy="tags")
      */
-    private $TwitLists;
+    private $twitLists;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -35,8 +35,8 @@ class Tag
 
     public function __construct()
     {
-        $this->RssSources = new ArrayCollection();
-        $this->TwitLists = new ArrayCollection();
+        $this->rssSources = new ArrayCollection();
+        $this->twitLists = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -49,13 +49,13 @@ class Tag
      */
     public function getRssSources(): Collection
     {
-        return $this->RssSources;
+        return $this->rssSources;
     }
 
     public function addRssSource(RssSource $rssSource): self
     {
-        if (!$this->RssSources->contains($rssSource)) {
-            $this->RssSources[] = $rssSource;
+        if (!$this->rssSources->contains($rssSource)) {
+            $this->rssSources[] = $rssSource;
         }
 
         return $this;
@@ -63,8 +63,8 @@ class Tag
 
     public function removeRssSource(RssSource $rssSource): self
     {
-        if ($this->RssSources->contains($rssSource)) {
-            $this->RssSources->removeElement($rssSource);
+        if ($this->rssSources->contains($rssSource)) {
+            $this->rssSources->removeElement($rssSource);
         }
 
         return $this;
@@ -75,13 +75,13 @@ class Tag
      */
     public function getTwitLists(): Collection
     {
-        return $this->TwitLists;
+        return $this->twitLists;
     }
 
     public function addTwitList(TwitList $twitList): self
     {
-        if (!$this->TwitLists->contains($twitList)) {
-            $this->TwitLists[] = $twitList;
+        if (!$this->twitLists->contains($twitList)) {
+            $this->twitLists[] = $twitList;
         }
 
         return $this;
@@ -89,8 +89,8 @@ class Tag
 
     public function removeTwitList(TwitList $twitList): self
     {
-        if ($this->TwitLists->contains($twitList)) {
-            $this->TwitLists->removeElement($twitList);
+        if ($this->twitLists->contains($twitList)) {
+            $this->twitLists->removeElement($twitList);
         }
 
         return $this;

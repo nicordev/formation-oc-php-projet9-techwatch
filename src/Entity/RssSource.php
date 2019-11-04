@@ -24,7 +24,7 @@ class RssSource
     private $url;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Tag", mappedBy="RssSources")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Tag", inversedBy="rssSources")
      */
     private $tags;
 

@@ -2,11 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\RssSource;
 use App\Entity\Tag;
 use App\Form\TagType;
 use App\Repository\TagRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -45,6 +47,40 @@ class TagController extends AbstractController
         $this->addFlash("notice", "The tag {$tag->getName()} has been deleted.");
 
         return $this->redirectToRoute("tag");
+    }
+
+    /**
+     * @Route(
+     *     "/tag/add-tag-to-rss-source/{tagId}/{rssSourceId}",
+     *     name="tag_add_rss_source",
+     *     requirements={"tagId": "\d+", "rssSourceId": "\d+"}
+     * )
+     */
+    public function addTagToRssSource(Tag $tag, RssSource $rssSource, EntityManagerInterface $manager)
+    {
+        $rssSource->addTag($tag);
+        $manager->flush();
+
+        $this->addFlash("success", "The tag {$tag->getName()} has been added to a source.");
+
+        return new JsonResponse(\json_encode($rssSource->getTags()), 200);
+    }
+
+    /**
+     * @Route(
+     *     "/tag/remove-tag-from-rss-source/{tagId}/{rssSourceId}",
+     *     name="tag_remove_rss_source",
+     *     requirements={"tagId": "\d+", "rssSourceId": "\d+"}
+     * )
+     */
+    public function removeTagFromRssSource(Tag $tag, RssSource $rssSource, EntityManagerInterface $manager)
+    {
+        $rssSource->removeTag($tag);
+        $manager->flush();
+
+        $this->addFlash("notice", "The tag {$tag->getName()} has been removed from a source.");
+
+        return new JsonResponse(\json_encode($rssSource->getTags()), 200);
     }
 
     /**

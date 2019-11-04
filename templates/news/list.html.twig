@@ -47,6 +47,13 @@
                         <a class="btn btn-danger" href="{{ path('twit_list_delete', {id: twitList.id}) }}">Delete</a>
                     </div>
                 {% endif %}
+                {% if twitList.tags %}
+                    <ul>
+                        {% for tag in twitList.tags %}
+                            <li>{{ tag.name }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
                 {{ show_twit_list(twitList.target, null, 500, true, false)|raw }}
             </div>
         {% endfor %}

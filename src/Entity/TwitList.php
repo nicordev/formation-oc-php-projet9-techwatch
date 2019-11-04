@@ -24,7 +24,7 @@ class TwitList
     private $target;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Tag", mappedBy="TwitLists")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Tag", inversedBy="twitLists")
      */
     private $tags;
 
